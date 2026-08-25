@@ -71,6 +71,21 @@
 
     <!-- TOP SECTION: PROFILE & STATS OVERVIEW (Opens a grid layout container designed to organize your top-level profile details and quick statistics side by side.) -->
     <div class="grid lg:grid-cols-4 gap-6 mb-8">
+
+        <!-- Circular Profile Strength Card -->
+      <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex items-center space-x-5">
+        <div class="relative w-20 h-20 flex-shrink-0 flex items-center justify-center">
+          <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+            <path class="text-gray-200" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <path class="text-brand-green" stroke-dasharray="82, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          </svg>
+          <span class="absolute font-display font-bold text-lg text-brand-green">82%</span>
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-gray-900">Profile Strength</h3>
+          <p class="text-xs text-gray-500 mt-1">Add 2 more skills to reach 100% optimization.</p>
+        </div>
+      </div>
 </head>
 <body>
     
