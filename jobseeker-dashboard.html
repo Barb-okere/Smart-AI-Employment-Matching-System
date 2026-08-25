@@ -114,6 +114,24 @@
 
     <!-- TABBED INTERFACE CONTAINER -->
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+
+        <!-- TAB NAVIGATION HEADER -->
+      <div class="border-b border-gray-200 bg-gray-50/50 px-6 pt-4">
+        <div class="flex space-x-8">
+          <button onclick="switchTab('matches')" id="tab-matches" class="tab-btn active border-b-2 border-brand-green text-brand-green font-bold pb-4 text-sm flex items-center space-x-2">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            <span>AI Matches</span>
+          </button>
+          <button onclick="switchTab('skillgap')" id="tab-skillgap" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium pb-4 text-sm flex items-center space-x-2">
+            <i data-lucide="radar" class="w-4 h-4"></i>
+            <span>Skill Gap Analysis</span>
+          </button>
+          <button onclick="switchTab('applications')" id="tab-applications" class="tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium pb-4 text-sm flex items-center space-x-2">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+            <span>Applications Tracker</span>
+          </button>
+        </div>
+      </div>
 </head>
 <body>
     
