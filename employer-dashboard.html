@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KaziConnect | Employer Portal</title>
+
+  <!-- Fonts: Outfit (Display) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Fonts: Outfit (Display) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#1A5C32',
+              amber: '#F05A28',
+              dark: '#0D2B17',
+              light: '#F4F7F5'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Lucide Icons & Chart.js CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-brand-light text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- NAVIGATION BAR -->
+  <nav class="bg-brand-green text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="bg-brand-amber text-white p-1.5 rounded-lg">
+            <i data-lucide="briefcase" class="w-5 h-5"></i>
+          </div>
+          <span class="font-display font-bold text-xl tracking-tight">KaziConnect</span>
+        </a>
+        <span class="bg-white/10 text-emerald-200 text-xs px-2.5 py-1 rounded-full font-medium ml-2">Employer Portal</span>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <button class="bg-brand-amber hover:bg-opacity-90 text-white font-semibold text-xs px-4 py-2 rounded-lg transition flex items-center space-x-1">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>Post New Job</span>
+        </button>
+        <div class="flex items-center space-x-3 border-l border-white/20 pl-4">
+          <div class="w-9 h-9 bg-emerald-800 rounded-full flex items-center justify-center font-bold text-sm border border-emerald-600">
+            S
+          </div>
+          <div class="hidden sm:block text-left text-xs">
+            <p class="font-bold">Safaricom PLC</p>
+            <p class="text-emerald-200">Verified Employer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
