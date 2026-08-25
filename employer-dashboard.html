@@ -180,7 +180,7 @@
         </div>
       </div>
 
-      <!-- TAB 2: JOB POSTINGS  -->
+      <!-- TAB 2: JOB POSTINGS displaying active and paused job listings, total applicant counts, sector details, and posting status indicators. Includes actionable controls to edit, pause, or resume individual postings. -->
       <div id="emp-content-postings" class="emp-tab-content p-6 hidden">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
@@ -237,3 +237,26 @@
           </table>
         </div>
       </div>
+
+      <!-- TAB 3: TALENT ANALYTICS tab with data visualization -->
+      <div id="emp-content-analytics" class="emp-tab-content p-6 hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+            <h4 class="font-display font-bold text-gray-900 text-base mb-1">Application Volume Trend</h4>
+            <p class="text-xs text-gray-500 mb-4">Total applicant trajectory over the last 30 days</p>
+            <div class="h-64">
+              <canvas id="applicationsChart"></canvas>
+            </div>
+          </div>
+          <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+            <h4 class="font-display font-bold text-gray-900 text-base mb-1">Top Applicant Skills</h4>
+            <p class="text-xs text-gray-500 mb-4">Most frequent verified skills in matched candidates</p>
+            <div class="h-64">
+              <canvas id="skillsChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
