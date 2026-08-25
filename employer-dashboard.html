@@ -355,4 +355,47 @@
       if (chartsInitialized) return;
       chartsInitialized = true;
 
-      
+      // Application Volume Chart
+      const ctx1 = document.getElementById('applicationsChart').getContext('2d');
+      new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+          datasets: [{
+            label: 'Applications',
+            data: [15, 38, 72, 128],
+            borderColor: '#1A5C32',
+            backgroundColor: 'rgba(26, 92, 50, 0.1)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } }
+        }
+      });
+
+      // Top Candidate Skills Chart
+      const ctx2 = document.getElementById('skillsChart').getContext('2d');
+      new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: ['React', 'Node.js', 'Python', 'SQL', 'AWS'],
+          datasets: [{
+            label: 'Matches',
+            data: [45, 38, 29, 24, 18],
+            backgroundColor: '#F05A28'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
