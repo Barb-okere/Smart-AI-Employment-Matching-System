@@ -115,7 +115,7 @@
     <!-- TABBED INTERFACE CONTAINER -->
     <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
 
-        <!-- TAB NAVIGATION HEADER -->
+        <!-- TAB NAVIGATION HEADER for dashboard view switching -->
       <div class="border-b border-gray-200 bg-gray-50/50 px-6 pt-4">
         <div class="flex space-x-8">
           <button onclick="switchTab('matches')" id="tab-matches" class="tab-btn active border-b-2 border-brand-green text-brand-green font-bold pb-4 text-sm flex items-center space-x-2">
@@ -130,6 +130,48 @@
             <i data-lucide="layers" class="w-4 h-4"></i>
             <span>Applications Tracker</span>
           </button>
+        </div>
+      </div>
+
+      <!-- TAB 1: AI MATCHES CONTENT -->
+      <div id="content-matches" class="tab-content p-6">
+        <div class="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+          <div class="relative flex-grow max-w-md">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3.5 text-gray-400"></i>
+            <input type="text" placeholder="Search matched roles, skills, or companies..." class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-brand-green">
+          </div>
+          <select class="border border-gray-200 rounded-xl text-sm px-4 py-2.5 focus:outline-none focus:border-brand-green">
+            <option>Sort by: Match Score (Highest)</option>
+            <option>Sort by: Newest First</option>
+          </select>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Job Match Item 1 -->
+          <div class="p-5 border border-gray-100 rounded-xl hover:border-brand-green transition bg-white flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <div class="flex items-center space-x-3">
+                <h4 class="font-display font-bold text-lg">Lead Backend Developer</h4>
+                <span class="bg-emerald-50 text-brand-green font-bold text-xs px-2.5 py-0.5 rounded-full border border-emerald-200">96% AI Score</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">KCB Group • Kilimani, Nairobi (Hybrid)</p>
+              <p class="text-xs text-gray-500 mt-2">Matched for: Python, Postgres, Microservices & FinTech experience.</p>
+            </div>
+            <button class="bg-brand-green text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-emerald-900 transition whitespace-nowrap">Apply via AI Profile</button>
+          </div>
+
+          <!-- Job Match Item 2 -->
+          <div class="p-5 border border-gray-100 rounded-xl hover:border-brand-green transition bg-white flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <div class="flex items-center space-x-3">
+                <h4 class="font-display font-bold text-lg">Full-Stack Engineer</h4>
+                <span class="bg-emerald-50 text-brand-green font-bold text-xs px-2.5 py-0.5 rounded-full border border-emerald-200">91% AI Score</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">Cellulant • Upper Hill, Nairobi</p>
+              <p class="text-xs text-gray-500 mt-2">Matched for: Node.js, React, M-Pesa API integration.</p>
+            </div>
+            <button class="bg-brand-green text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-emerald-900 transition whitespace-nowrap">Apply via AI Profile</button>
+          </div>
         </div>
       </div>
 </head>
