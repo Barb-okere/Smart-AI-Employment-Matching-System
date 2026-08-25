@@ -301,3 +301,33 @@
       </form>
     </div>
   </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500">
+      &copy; 2026 KaziConnect. Empowering Kenyan Talent with AI Precision.
+    </div>
+  </footer>
+
+  <!-- INTERACTIVE SCRIPTS -->
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Tab Switch Logic
+    function switchEmpTab(tabName) {
+      document.querySelectorAll('.emp-tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.emp-tab-btn').forEach(el => {
+        el.classList.remove('border-brand-green', 'text-brand-green', 'font-bold');
+        el.classList.add('border-transparent', 'text-gray-500', 'font-medium');
+      });
+
+      document.getElementById('emp-content-' + tabName).classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-' + tabName);
+      activeBtn.classList.remove('border-transparent', 'text-gray-500', 'font-medium');
+      activeBtn.classList.add('border-brand-green', 'text-brand-green', 'font-bold');
+
+      if (tabName === 'analytics') {
+        renderEmployerCharts();
+      }
+    }
