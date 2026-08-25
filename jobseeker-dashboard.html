@@ -254,6 +254,60 @@
 
     </div>
   </main>
+
+  <!-- JAVASCRIPT FOR TABS & CHART -->
+  <script>
+    lucide.createIcons();
+
+    // Tab Switcher Logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-brand-green', 'text-brand-green', 'font-bold');
+        btn.classList.add('border-transparent', 'text-gray-500', 'font-medium');
+      });
+
+      document.getElementById('content-' + tabId).classList.remove('hidden');
+      const activeBtn = document.getElementById('tab-' + tabId);
+      activeBtn.classList.add('border-brand-green', 'text-brand-green', 'font-bold');
+      activeBtn.classList.remove('border-transparent', 'text-gray-500', 'font-medium');
+
+      if (tabId === 'skillgap' && !window.radarChartInstance) {
+        initRadarChart();
+      }
+    }
+
+    // Chart.js Radar Initialization
+    function initRadarChart() {
+      const ctx = document.getElementById('skillRadarChart').getContext('2d');
+      window.radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Python', 'React', 'Cloud/AWS', 'System Architecture', 'GraphQL', 'DevOps'],
+          datasets: [{
+            label: 'Your Skill Profile',
+            data: [95, 90, 75, 80, 65, 70],
+            fill: true,
+            backgroundColor: 'rgba(26, 92, 50, 0.2)',
+            borderColor: '#1A5C32',
+            pointBackgroundColor: '#1A5C32'
+          }, {
+            label: 'Market Target Benchmark',
+            data: [85, 85, 90, 85, 90, 80],
+            fill: true,
+            backgroundColor: 'rgba(240, 90, 40, 0.2)',
+            borderColor: '#F05A28',
+            pointBackgroundColor: '#F05A28'
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { position: 'bottom' } },
+          scales: { r: { min: 0, max: 100 } }
+        }
+      });
+    }
+  </script>
 </head>
 <body>
     
