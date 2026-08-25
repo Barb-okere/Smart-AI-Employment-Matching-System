@@ -38,6 +38,33 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-brand-light text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- NAVIGATION BAR contains the project branding, a badge, and the logged-in user's profile information. -->
+  <nav class="bg-brand-green text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="bg-brand-amber text-white p-1.5 rounded-lg">
+            <i data-lucide="briefcase" class="w-5 h-5"></i>
+          </div>
+          <span class="font-display font-bold text-xl tracking-tight">KaziConnect</span>
+        </a>
+        <span class="bg-white/10 text-emerald-200 text-xs px-2.5 py-1 rounded-full font-medium ml-2">Job Seeker</span>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center space-x-3 border-l border-white/20 pl-4">
+          <div class="w-9 h-9 bg-brand-amber rounded-full flex items-center justify-center font-bold text-sm">
+            JM
+          </div>
+          <div class="hidden sm:block text-left text-xs">
+            <p class="font-bold">John Mwangi</p>
+            <p class="text-emerald-200">Full-Stack Dev • Nairobi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
 </head>
 <body>
     
