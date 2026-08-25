@@ -348,3 +348,11 @@
       alert('Job posting created and published to KaziConnect applicant matching pool!');
       closePostJobModal();
     }
+
+    // Chart.js Rendering Logic
+    let chartsInitialized = false;
+    function renderEmployerCharts() {
+      if (chartsInitialized) return;
+      chartsInitialized = true;
+
+      
