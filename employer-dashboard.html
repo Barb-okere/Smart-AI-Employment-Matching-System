@@ -78,7 +78,7 @@
   <!-- MAIN DASHBOARD CONTENT -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
     
-    <!-- STATS OVERVIEW -->
+    <!-- STATS OVERVIEW used to give recruiters or employers an instant look at key metrics like active job posts, total applicants, and match speed. -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
       <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
         <p class="text-xs text-gray-500 font-semibold uppercase">Active Listings</p>
@@ -101,3 +101,81 @@
         <span class="text-xs text-emerald-600 font-medium">50% faster than average</span>
       </div>
     </div>
+
+    <!-- TABBED INTERFACE CONTAINER -->
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+      
+      <!-- TAB NAVIGATION HEADER -->
+      <div class="border-b border-gray-200 bg-gray-50/50 px-6 pt-4">
+        <div class="flex space-x-8">
+          <button onclick="switchEmpTab('pipeline')" id="tab-pipeline" class="emp-tab-btn active border-b-2 border-brand-green text-brand-green font-bold pb-4 text-sm flex items-center space-x-2">
+            <i data-lucide="users" class="w-4 h-4"></i>
+            <span>Candidate Pipeline</span>
+          </button>
+          <button onclick="switchEmpTab('postings')" id="tab-postings" class="emp-tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium pb-4 text-sm flex items-center space-x-2">
+            <i data-lucide="file-text" class="w-4 h-4"></i>
+            <span>Job Postings</span>
+          </button>
+          <button onclick="switchEmpTab('analytics')" id="tab-analytics" class="emp-tab-btn border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium pb-4 text-sm flex items-center space-x-2">
+            <i data-lucide="bar-chart-3" class="w-4 h-4"></i>
+            <span>Talent Analytics</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 1: CANDIDATE PIPELINE -->
+      <div id="emp-content-pipeline" class="emp-tab-content p-6">
+        <div class="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+          <div class="relative flex-grow max-w-md">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3 top-3.5 text-gray-400"></i>
+            <input type="text" placeholder="Filter applicants by name or skill..." class="w-full pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-brand-green">
+          </div>
+          <div class="flex space-x-3">
+            <select class="border border-gray-200 rounded-xl text-sm px-4 py-2.5 focus:outline-none focus:border-brand-green">
+              <option>All Jobs</option>
+              <option>Senior Full-Stack Engineer</option>
+              <option>DevOps Lead</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase">
+                <th class="pb-3">Candidate</th>
+                <th class="pb-3">Applied For</th>
+                <th class="pb-3">AI Match Score</th>
+                <th class="pb-3">Status</th>
+                <th class="pb-3 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 text-sm">
+              <tr>
+                <td class="py-4">
+                  <p class="font-bold text-gray-900">John Mwangi</p>
+                  <p class="text-xs text-gray-500">Nairobi • 5 yrs exp</p>
+                </td>
+                <td class="py-4 text-gray-700 font-medium">Senior Full-Stack Engineer</td>
+                <td class="py-4"><span class="bg-emerald-50 text-brand-green text-xs font-bold px-2.5 py-1 rounded border border-emerald-200">95% Match</span></td>
+                <td class="py-4"><span class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full">Interview Scheduled</span></td>
+                <td class="py-4 text-right space-x-2">
+                  <button class="text-xs bg-brand-green text-white font-semibold px-3 py-1.5 rounded hover:bg-emerald-900 transition">View Profile</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="py-4">
+                  <p class="font-bold text-gray-900">Amina Ochieng</p>
+                  <p class="text-xs text-gray-500">Mombasa • 3 yrs exp</p>
+                </td>
+                <td class="py-4 text-gray-700 font-medium">Senior Full-Stack Engineer</td>
+                <td class="py-4"><span class="bg-emerald-50 text-brand-green text-xs font-bold px-2.5 py-1 rounded border border-emerald-200">88% Match</span></td>
+                <td class="py-4"><span class="bg-yellow-50 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded-full">Under Review</span></td>
+                <td class="py-4 text-right space-x-2">
+                  <button class="text-xs bg-brand-green text-white font-semibold px-3 py-1.5 rounded hover:bg-emerald-900 transition">View Profile</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
