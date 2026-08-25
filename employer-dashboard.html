@@ -331,3 +331,20 @@
         renderEmployerCharts();
       }
     }
+
+    // Modal Control Logic used to add open, close, and submit handlers for job posting modal
+    function openPostJobModal() {
+      document.getElementById('postJobModal').classList.remove('hidden');
+      document.getElementById('postJobModal').classList.add('flex');
+    }
+
+    function closePostJobModal() {
+      document.getElementById('postJobModal').classList.add('hidden');
+      document.getElementById('postJobModal').classList.remove('flex');
+    }
+
+    function handleJobSubmit(e) {
+      e.preventDefault();
+      alert('Job posting created and published to KaziConnect applicant matching pool!');
+      closePostJobModal();
+    }
