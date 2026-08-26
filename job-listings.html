@@ -119,6 +119,43 @@
         </select>
       </div>
     </div>
+
+    <!-- JOB CARDS GRID -->
+    <div id="jobListingsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- CARD 1 -->
+      <div class="job-card bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-sector="Technology" data-location="Nairobi" data-title="Senior Full-Stack Engineer" data-match="95">
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-emerald-100 text-brand-green font-bold rounded-xl flex items-center justify-center text-lg">
+                S
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-gray-900 text-lg leading-snug">Senior Full-Stack Engineer</h3>
+                <p class="text-xs text-gray-500 font-medium">Safaricom PLC • Nairobi</p>
+              </div>
+            </div>
+            <span class="bg-emerald-50 text-brand-green border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full">95% Match</span>
+          </div>
+          
+          <p class="text-xs text-gray-600 line-clamp-2 mb-4 leading-relaxed">Lead modern microservices architecture and scale mobile-first payments integration. Requires React, Node.js, and cloud deployments.</p>
+          
+          <div class="flex flex-wrap gap-2 mb-6 text-xs">
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">TypeScript</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">React</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">AWS</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Full-time</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+          <span class="text-xs font-bold text-gray-900">KES 220,000 - 350,000 / mo</span>
+          <button onclick="openJobDetail('Senior Full-Stack Engineer', 'Safaricom PLC', '95% Match', 'Nairobi', 'KES 220,000 - 350,000 / mo')" class="bg-brand-green hover:bg-emerald-900 text-white font-semibold text-xs px-4 py-2 rounded-lg transition">Apply Now</button>
+        </div>
+      </div>
+
+      
 </head>
 <body>
     
