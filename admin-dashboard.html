@@ -238,3 +238,38 @@
 
     </div>
   </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500">
+      &copy; 2026 KaziConnect Platform Administration • Republic of Kenya
+    </div>
+  </footer>
+
+  <!-- CHARTS INITIALIZATION -->
+  <script>
+    lucide.createIcons();
+
+    // 1. Monthly Placements Chart (Bar + Line)
+    const ctxPlacements = document.getElementById('placementsChart').getContext('2d');
+    new Chart(ctxPlacements, {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+        datasets: [{
+          label: 'Successful Placements',
+          data: [1800, 2200, 2500, 2900, 3100, 3400, 3800, 4200],
+          backgroundColor: '#1A5C32',
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { grid: { color: '#F3F4F6' } },
+          x: { grid: { display: false } }
+        }
+      }
+    });
