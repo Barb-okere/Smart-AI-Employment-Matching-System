@@ -273,3 +273,36 @@
         }
       }
     });
+
+    // 2. County Reach Chart (Doughnut)
+    const ctxCounty = document.getElementById('countyChart').getContext('2d');
+    new Chart(ctxCounty, {
+      type: 'doughnut',
+      data: {
+        labels: ['Nairobi', 'Mombasa', 'Kisumu', 'Nakuru', 'Uasin Gishu', 'Others'],
+        datasets: [{
+          data: [42, 18, 14, 12, 8, 6],
+          backgroundColor: [
+            '#1A5C32',
+            '#F05A28',
+            '#0D2B17',
+            '#34D399',
+            '#FBBF24',
+            '#9CA3AF'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { boxWidth: 12, font: { size: 10 } }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
