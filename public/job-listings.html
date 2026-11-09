@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KaziConnect | Browse AI-Matched Jobs</title>
+
+    <!-- Fonts: Outfit (Display) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#1A5C32',
+              amber: '#F05A28',
+              dark: '#0D2B17',
+              light: '#F4F7F5'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-brand-light text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- NAVIGATION BAR -->
+  <nav class="bg-brand-green text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="bg-brand-amber text-white p-1.5 rounded-lg">
+            <i data-lucide="briefcase" class="w-5 h-5"></i>
+          </div>
+          <span class="font-display font-bold text-xl tracking-tight">KaziConnect</span>
+        </a>
+        <span class="bg-white/10 text-emerald-200 text-xs px-2.5 py-1 rounded-full font-medium ml-2">Job Opportunities</span>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <a href="login.html" class="px-4 py-2 border border-white/30 rounded-lg font-medium hover:bg-white/10 transition">Log In</a>
+        <a href="job-seeker-dashboard.html" class="text-xs font-semibold hover:text-emerald-200 transition">My Dashboard</a>
+        <div class="flex items-center space-x-3 border-l border-white/20 pl-4">
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SEARCH HEADER -->
+  <header class="bg-brand-dark text-white py-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="font-display font-extrabold text-2xl sm:text-3xl text-white mb-2">Find AI-Matched Opportunities</h1>
+      <p class="text-emerald-200 text-sm max-w-xl mb-6">Explore roles aligned with your verified skills across Kenya’s top innovation, financial, and tech sectors.</p>
+      
+      <!-- SEARCH & FILTER BAR -->
+      <div class="bg-white p-3 rounded-2xl shadow-xl flex flex-col md:flex-row gap-3 text-gray-800">
+        <div class="relative flex-grow">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3.5 text-gray-400"></i>
+          <input type="text" id="searchInput" onkeyup="filterJobs()" placeholder="Search title, skills, or employer..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-brand-green">
+        </div>
+        <div class="relative w-full md:w-56">
+          <i data-lucide="map-pin" class="w-4 h-4 absolute left-3.5 top-3.5 text-gray-400"></i>
+          <select id="locationSelect" onchange="filterJobs()" class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-brand-green bg-white text-gray-700">
+            <option value="">All Locations</option>
+            <option value="Nairobi">Nairobi</option>
+            <option value="Mombasa">Mombasa</option>
+            <option value="Kisumu">Kisumu</option>
+            <option value="Eldoret">Eldoret</option>
+            <option value="Remote">Remote</option>
+          </select>
+        </div>
+        <button class="bg-brand-amber hover:bg-opacity-90 text-white font-semibold px-6 py-2.5 rounded-xl text-sm transition flex items-center justify-center space-x-2">
+          <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+          <span>Filter</span>
+        </button>
+      </div>
+
+      <!-- SECTOR CHIPS -->
+      <div class="flex items-center space-x-2 mt-4 overflow-x-auto pb-2 scrollbar-none text-xs">
+        <span class="text-emerald-300 font-semibold uppercase tracking-wider text-[11px] mr-2">Sectors:</span>
+        <button onclick="filterSector('All')" class="sector-chip bg-brand-amber text-white font-semibold px-3.5 py-1.5 rounded-full transition whitespace-nowrap">All Sectors</button>
+        <button onclick="filterSector('Technology')" class="sector-chip bg-white/10 hover:bg-white/20 text-emerald-100 font-medium px-3.5 py-1.5 rounded-full transition whitespace-nowrap">Technology</button>
+        <button onclick="filterSector('Finance')" class="sector-chip bg-white/10 hover:bg-white/20 text-emerald-100 font-medium px-3.5 py-1.5 rounded-full transition whitespace-nowrap">Finance</button>
+        <button onclick="filterSector('Digital Marketing')" class="sector-chip bg-white/10 hover:bg-white/20 text-emerald-100 font-medium px-3.5 py-1.5 rounded-full transition whitespace-nowrap">Digital Marketing</button>
+        <button onclick="filterSector('Agribusiness')" class="sector-chip bg-white/10 hover:bg-white/20 text-emerald-100 font-medium px-3.5 py-1.5 rounded-full transition whitespace-nowrap">Agribusiness</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN LISTINGS CONTENT -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+    
+    <!-- RESULTS BAR -->
+    <div class="flex justify-between items-center mb-6">
+      <p class="text-xs text-gray-500 font-medium">Showing <span id="resultsCount" class="font-bold text-gray-900">4</span> verified opportunities</p>
+      <div class="flex items-center space-x-2 text-xs">
+        <span class="text-gray-500">Sort by:</span>
+        <select onchange="sortJobs(this.value)" class="border border-gray-200 rounded-lg px-2.5 py-1.5 bg-white font-medium focus:outline-none focus:border-brand-green">
+          <option value="match">Highest AI Match</option>
+          <option value="recent">Most Recent</option>
+          <option value="alpha">Alphabetical</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- JOB CARDS GRID -->
+    <div id="jobListingsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- CARD 1 -->
+      <div class="job-card bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-sector="Technology" data-location="Nairobi" data-title="Senior Full-Stack Engineer" data-match="95">
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-emerald-100 text-brand-green font-bold rounded-xl flex items-center justify-center text-lg">
+                S
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-gray-900 text-lg leading-snug">Senior Full-Stack Engineer</h3>
+                <p class="text-xs text-gray-500 font-medium">Safaricom PLC • Nairobi</p>
+              </div>
+            </div>
+            <span class="bg-emerald-50 text-brand-green border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full">95% Match</span>
+          </div>
+          
+          <p class="text-xs text-gray-600 line-clamp-2 mb-4 leading-relaxed">Lead modern microservices architecture and scale mobile-first payments integration. Requires React, Node.js, and cloud deployments.</p>
+          
+          <div class="flex flex-wrap gap-2 mb-6 text-xs">
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">TypeScript</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">React</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">AWS</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Full-time</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+          <span class="text-xs font-bold text-gray-900">KES 220,000 - 350,000 / mo</span>
+          <button onclick="openJobDetail('Senior Full-Stack Engineer', 'Safaricom PLC', '95% Match', 'Nairobi', 'KES 220,000 - 350,000 / mo')" class="bg-brand-green hover:bg-emerald-900 text-white font-semibold text-xs px-4 py-2 rounded-lg transition">Apply Now</button>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="job-card bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-sector="Finance" data-location="Nairobi" data-title="Financial Risk Analyst" data-match="88">
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-orange-100 text-brand-amber font-bold rounded-xl flex items-center justify-center text-lg">
+                E
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-gray-900 text-lg leading-snug">Financial Risk Analyst</h3>
+                <p class="text-xs text-gray-500 font-medium">Equity Bank Group • Nairobi</p>
+              </div>
+            </div>
+            <span class="bg-emerald-50 text-brand-green border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full">88% Match</span>
+          </div>
+          
+          <p class="text-xs text-gray-600 line-clamp-2 mb-4 leading-relaxed">Analyze enterprise risk portfolios across East Africa operations, build predictive financial models, and ensure regulatory compliance.</p>
+          
+          <div class="flex flex-wrap gap-2 mb-6 text-xs">
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Financial Modeling</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Python</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Risk Assessment</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+          <span class="text-xs font-bold text-gray-900">KES 180,000 - 260,000 / mo</span>
+          <button onclick="openJobDetail('Financial Risk Analyst', 'Equity Bank Group', '88% Match', 'Nairobi', 'KES 180,000 - 260,000 / mo')" class="bg-brand-green hover:bg-emerald-900 text-white font-semibold text-xs px-4 py-2 rounded-lg transition">Apply Now</button>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="job-card bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-sector="Digital Marketing" data-location="Mombasa" data-title="Digital Growth Lead" data-match="84">
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-blue-100 text-blue-700 font-bold rounded-xl flex items-center justify-center text-lg">
+                S
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-gray-900 text-lg leading-snug">Digital Growth Lead</h3>
+                <p class="text-xs text-gray-500 font-medium">Swahili Beach Resort • Mombasa</p>
+              </div>
+            </div>
+            <span class="bg-emerald-50 text-brand-green border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full">84% Match</span>
+          </div>
+          
+          <p class="text-xs text-gray-600 line-clamp-2 mb-4 leading-relaxed">Drive customer acquisition across digital search, social channels, and performance marketing for regional hospitality hubs.</p>
+          
+          <div class="flex flex-wrap gap-2 mb-6 text-xs">
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">SEO</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Performance Ads</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Analytics</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+          <span class="text-xs font-bold text-gray-900">KES 120,000 - 180,000 / mo</span>
+          <button onclick="openJobDetail('Digital Growth Lead', 'Swahili Beach Resort', '84% Match', 'Mombasa', 'KES 120,000 - 180,000 / mo')" class="bg-brand-green hover:bg-emerald-900 text-white font-semibold text-xs px-4 py-2 rounded-lg transition">Apply Now</button>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="job-card bg-white rounded-2xl border border-gray-200 p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between" data-sector="Agribusiness" data-location="Kisumu" data-title="Agritech Operations Lead" data-match="91">
+        <div>
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 bg-emerald-100 text-brand-green font-bold rounded-xl flex items-center justify-center text-lg">
+                T
+              </div>
+              <div>
+                <h3 class="font-display font-bold text-gray-900 text-lg leading-snug">Agritech Operations Lead</h3>
+                <p class="text-xs text-gray-500 font-medium">Twiga Foods • Kisumu</p>
+              </div>
+            </div>
+            <span class="bg-emerald-50 text-brand-green border border-emerald-200 text-xs font-bold px-3 py-1 rounded-full">91% Match</span>
+          </div>
+          
+          <p class="text-xs text-gray-600 line-clamp-2 mb-4 leading-relaxed">Supervise digital supply chain logistics and smallholder farm distribution networks across Western Kenya hubs.</p>
+          
+          <div class="flex flex-wrap gap-2 mb-6 text-xs">
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Supply Chain</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Logistics Tech</span>
+            <span class="bg-gray-100 text-gray-700 font-medium px-2.5 py-1 rounded-md">Operations</span>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+          <span class="text-xs font-bold text-gray-900">KES 150,000 - 220,000 / mo</span>
+          <button onclick="openJobDetail('Agritech Operations Lead', 'Twiga Foods', '91% Match', 'Kisumu', 'KES 150,000 - 220,000 / mo')" class="bg-brand-green hover:bg-emerald-900 text-white font-semibold text-xs px-4 py-2 rounded-lg transition">Apply Now</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- APPLICATION / JOB DETAIL MODAL -->
+  <div id="jobDetailModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 px-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl relative">
+      <div class="flex justify-between items-start pb-4 border-b border-gray-100">
+        <div>
+          <span id="modalMatch" class="bg-emerald-50 text-brand-green text-xs font-bold px-2.5 py-0.5 rounded-full border border-emerald-200">95% Match</span>
+          <h3 id="modalTitle" class="font-display font-bold text-xl text-gray-900 mt-2">Job Title</h3>
+          <p id="modalCompany" class="text-xs text-gray-500">Company Name</p>
+        </div>
+        <button onclick="closeJobDetail()" class="text-gray-400 hover:text-gray-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="py-4 space-y-3 text-xs text-gray-600">
+        <div class="flex items-center space-x-4">
+          <span class="flex items-center"><i data-lucide="map-pin" class="w-3.5 h-3.5 mr-1 text-gray-400"></i><span id="modalLocation">Location</span></span>
+          <span class="flex items-center"><i data-lucide="banknote" class="w-3.5 h-3.5 mr-1 text-gray-400"></i><span id="modalSalary">Salary</span></span>
+        </div>
+        <p class="text-gray-700 leading-relaxed pt-2">Your AI profile score qualifies you automatically for 1-click application. Your verified skills fit 90%+ of the core requirements for this posting.</p>
+      </div>
+
+      <div class="flex justify-end space-x-3 pt-4 border-t border-gray-100">
+        <button onclick="closeJobDetail()" class="px-4 py-2 text-xs font-medium text-gray-600 hover:text-gray-800">Cancel</button>
+        <button onclick="submitApplication()" class="px-5 py-2 text-xs bg-brand-amber text-white font-semibold rounded-lg hover:bg-opacity-90 transition flex items-center space-x-1.5">
+          <i data-lucide="send" class="w-3.5 h-3.5"></i>
+          <span>Confirm & Submit Application</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-200 py-6 mt-12">
+    <div class="max-w-7xl mx-auto px-4 text-center text-xs text-gray-500">
+      &copy; 2026 KaziConnect. Connecting Kenyan Professionals with High-Impact Roles.
+    </div>
+  </footer>
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    lucide.createIcons();
+
+    let currentSectorFilter = 'All';
+
+    function filterJobs() {
+      const searchValue = document.getElementById('searchInput').value.toLowerCase();
+      const locationValue = document.getElementById('locationSelect').value;
+      const cards = document.querySelectorAll('.job-card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        const sector = card.getAttribute('data-sector');
+        const location = card.getAttribute('data-location');
+
+        const matchesSearch = title.includes(searchValue);
+        const matchesLocation = !locationValue || location === locationValue;
+        const matchesSector = currentSectorFilter === 'All' || sector === currentSectorFilter;
+
+        if (matchesSearch && matchesLocation && matchesSector) {
+          card.classList.remove('hidden');
+          visibleCount++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      document.getElementById('resultsCount').innerText = visibleCount;
+    }
+
+    function filterSector(sector) {
+      currentSectorFilter = sector;
+      document.querySelectorAll('.sector-chip').forEach(btn => {
+        if (btn.innerText === sector || (sector === 'All' && btn.innerText === 'All Sectors')) {
+          btn.classList.remove('bg-white/10', 'text-emerald-100');
+          btn.classList.add('bg-brand-amber', 'text-white', 'font-semibold');
+        } else {
+          btn.classList.remove('bg-brand-amber', 'text-white', 'font-semibold');
+          btn.classList.add('bg-white/10', 'text-emerald-100', 'font-medium');
+        }
+      });
+      filterJobs();
+    }
+
+    function sortJobs(criteria) {
+      const grid = document.getElementById('jobListingsGrid');
+      const cards = Array.from(grid.children);
+
+      cards.sort((a, b) => {
+        if (criteria === 'match') {
+          return parseInt(b.getAttribute('data-match')) - parseInt(a.getAttribute('data-match'));
+        } else if (criteria === 'alpha') {
+          return a.getAttribute('data-title').localeCompare(b.getAttribute('data-title'));
+        }
+        return 0;
+      });
+
+      cards.forEach(card => grid.appendChild(card));
+    }
+
+    function openJobDetail(title, company, match, location, salary) {
+      document.getElementById('modalTitle').innerText = title;
+      document.getElementById('modalCompany').innerText = company;
+      document.getElementById('modalMatch').innerText = match;
+      document.getElementById('modalLocation').innerText = location;
+      document.getElementById('modalSalary').innerText = salary;
+
+      document.getElementById('jobDetailModal').classList.remove('hidden');
+      document.getElementById('jobDetailModal').classList.add('flex');
+    }
+
+    function closeJobDetail() {
+      document.getElementById('jobDetailModal').classList.add('hidden');
+      document.getElementById('jobDetailModal').classList.remove('flex');
+    }
+
+    function submitApplication() {
+      alert('Application submitted successfully! Track status under your Job Seeker Dashboard.');
+      closeJobDetail();
+    }
+
+    // Automatically select sector from URL query string on load
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const sectorParam = urlParams.get('sector');
+  
+  if (sectorParam) {
+    filterSector(sectorParam);
+  }
+});
+  </script>
+</body>
+</html>
+    

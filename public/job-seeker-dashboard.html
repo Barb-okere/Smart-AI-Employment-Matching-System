@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KaziConnect | Job Seeker Dashboard</title>
+
+  <!-- Hide the dashboard until the session is verified -->
+  <style>
+    html { visibility: hidden; }
+    html[data-authenticated="true"] { visibility: visible; }
+  </style>
+
+  <!-- Verify the logged-in user -->
+  <script>
+    (async function protectDashboard() {
+      const LOGIN_PAGE = '/login.html';
+      const REQUIRED_ROLE = 'job_seeker';
+
+      const sessionText =
+        localStorage.getItem('kaziconnectSession') ||
+        sessionStorage.getItem('kaziconnectSession');
+
+      function clearSession() {
+        localStorage.removeItem('kaziconnectSession');
+        sessionStorage.removeItem('kaziconnectSession');
+      }
+
+      if (!sessionText) {
+        window.location.replace(LOGIN_PAGE);
+        return;
+      }
+
+      try {
+        const session = JSON.parse(sessionText);
+
+        if (!session.token) {
+          throw new Error('Missing login token');
+        }
+
+        const response = await fetch('/api/me', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${session.token}`
+          },
+          cache: 'no-store'
+        });
+
+        if (!response.ok) {
+          throw new Error('Session is invalid or expired');
+        }
+
+        const user = await response.json();
+
+        if (user.role !== REQUIRED_ROLE) {
+          clearSession();
+          window.location.replace(LOGIN_PAGE);
+          return;
+        }
+
+        // Display the actual logged-in user's name.
+        const fullName =
+          user.name ||
+          user.full_name ||
+          session.fullName ||
+          'Job Seeker';
+
+        window.currentSkillMatchUser = user;
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const nameElement = document.getElementById('userName');
+          const initialsElement = document.getElementById('userInitials');
+
+          if (nameElement) {
+            nameElement.textContent = fullName;
+          }
+
+          if (initialsElement) {
+            initialsElement.textContent = fullName
+              .trim()
+              .split(/\s+/)
+              .slice(0, 2)
+              .map(part => part.charAt(0).toUpperCase())
+              .join('');
+          }
+        });
+
+        document.documentElement.dataset.authenticated = 'true';
+
+      } catch (error) {
+        console.error('Dashboard authentication failed:', error);
+        clearSession();
+        window.location.replace(LOGIN_PAGE);
+      }
+    })();
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              green: '#1A5C32',
+              amber: '#F05A28',
+              dark: '#0D2B17',
+              light: '#F4F7F5'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Icons and charts -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-brand-light text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+
+  <!-- NAVIGATION -->
+  <nav class="bg-brand-green text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+
+      <div class="flex items-center space-x-3">
+        <a href="index.html" class="flex items-center space-x-2">
+          <div class="bg-brand-amber text-white p-1.5 rounded-lg">
+            <i data-lucide="briefcase" class="w-5 h-5"></i>
+          </div>
+          <span class="font-display font-bold text-xl tracking-tight">KaziConnect</span>
+        </a>
+
+        <span class="bg-white/10 text-emerald-200 text-xs px-2.5 py-1 rounded-full font-medium ml-2">
+          Job Seeker
+        </span>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="flex items-center space-x-3 border-l border-white/20 pl-4">
+          <div id="userInitials"
+               class="w-9 h-9 bg-brand-amber rounded-full flex items-center justify-center font-bold text-sm">
+            JS
+          </div>
+
+          <div class="hidden sm:block text-left text-xs">
+            <p id="userName" class="font-bold">Loading profile...</p>
+            <p class="text-emerald-200">Job Seeker</p>
+          </div>
+        </div>
+
+        <button id="logoutButton"
+                type="button"
+                class="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg text-sm font-semibold">
+          Log out
+        </button>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- MAIN DASHBOARD -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+
+    <!-- PROFILE AND STATISTICS -->
+    <div class="grid lg:grid-cols-4 gap-6 mb-8">
+
+      <!-- Profile strength -->
+      <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm flex items-center space-x-5">
+        <div class="relative w-20 h-20 flex-shrink-0 flex items-center justify-center">
+          <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+            <path class="text-gray-200" stroke-width="3.5" stroke="currentColor" fill="none"
+              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <path class="text-brand-green" stroke-dasharray="82, 100" stroke-width="3.5"
+              stroke-linecap="round" stroke="currentColor" fill="none"
+              d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          </svg>
+          <span class="absolute font-display font-bold text-lg text-brand-green">82%</span>
+        </div>
+
+        <div>
+          <h3 class="font-display font-bold text-gray-900">Profile Strength</h3>
+          <p class="text-xs text-gray-500 mt-1">Complete your profile to improve your matches.</p>
+        </div>
+      </div>
+
+      <!-- Statistics -->
+      <div class="lg:col-span-3 grid grid-cols-2 sm:grid-cols-4 gap-4">
+
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+          <p class="text-xs text-gray-500 font-semibold uppercase">AI Matches</p>
+          <p class="font-display text-2xl font-bold text-brand-green mt-1">14</p>
+          <span class="text-xs text-gray-500 mt-1">Recommended jobs</span>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+          <p class="text-xs text-gray-500 font-semibold uppercase">Applications</p>
+          <p class="font-display text-2xl font-bold text-gray-900 mt-1">6</p>
+          <span class="text-xs text-gray-500 mt-1">Submitted applications</span>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+          <p class="text-xs text-gray-500 font-semibold uppercase">Profile Views</p>
+          <p class="font-display text-2xl font-bold text-gray-900 mt-1">48</p>
+          <span class="text-xs text-gray-500 mt-1">Profile visits</span>
+        </div>
+
+        <div class="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm">
+          <p class="text-xs text-gray-500 font-semibold uppercase">Skills Index</p>
+          <p class="font-display text-2xl font-bold text-brand-amber mt-1">88/100</p>
+          <span class="text-xs text-gray-500 mt-1">Skills overview</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- DASHBOARD TABS -->
+    <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+
+      <div class="border-b border-gray-200 bg-gray-50/50 px-6 pt-4">
+        <div class="flex flex-wrap gap-x-8">
+
+          <button onclick="switchTab('matches')" id="tab-matches"
+            class="tab-btn border-b-2 border-brand-green text-brand-green font-bold pb-4 text-sm flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            AI Matches
+          </button>
+
+          <button onclick="switchTab('skillgap')" id="tab-skillgap"
+            class="tab-btn border-b-2 border-transparent text-gray-500 font-medium pb-4 text-sm flex items-center gap-2">
+            <i data-lucide="radar" class="w-4 h-4"></i>
+            Skill Gap Analysis
+          </button>
+
+          <button onclick="switchTab('applications')" id="tab-applications"
+            class="tab-btn border-b-2 border-transparent text-gray-500 font-medium pb-4 text-sm flex items-center gap-2">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+            Applications Tracker
+          </button>
+
+        </div>
+      </div>
+
+      <!-- AI MATCHES -->
+      <section id="content-matches" class="tab-content p-6">
+
+        <div class="flex flex-col sm:flex-row justify-between gap-4 mb-6">
+          <input type="text"
+            placeholder="Search matched roles, skills, or companies..."
+            class="w-full sm:max-w-md px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-brand-green">
+
+          <select class="border border-gray-200 rounded-xl text-sm px-4 py-2.5">
+            <option>Sort by: Match Score (Highest)</option>
+            <option>Sort by: Newest First</option>
+          </select>
+        </div>
+
+        <div class="space-y-4">
+
+          <article class="p-5 border border-gray-100 rounded-xl hover:border-brand-green transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <div class="flex items-center gap-3">
+                <h4 class="font-display font-bold text-lg">Lead Backend Developer</h4>
+                <span class="bg-emerald-50 text-brand-green font-bold text-xs px-2.5 py-1 rounded-full border border-emerald-200">96% AI Score</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">KCB Group • Kilimani, Nairobi (Hybrid)</p>
+              <p class="text-xs text-gray-500 mt-2">Matched for: Python, PostgreSQL, Microservices and FinTech.</p>
+            </div>
+            <button class="bg-brand-green text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-emerald-900">
+              Apply via AI Profile
+            </button>
+          </article>
+
+          <article class="p-5 border border-gray-100 rounded-xl hover:border-brand-green transition flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <div class="flex items-center gap-3">
+                <h4 class="font-display font-bold text-lg">Full-Stack Engineer</h4>
+                <span class="bg-emerald-50 text-brand-green font-bold text-xs px-2.5 py-1 rounded-full border border-emerald-200">91% AI Score</span>
+              </div>
+              <p class="text-sm text-gray-600 mt-1">Cellulant • Upper Hill, Nairobi</p>
+              <p class="text-xs text-gray-500 mt-2">Matched for: Node.js, React and API integration.</p>
+            </div>
+            <button class="bg-brand-green text-white font-semibold px-6 py-2.5 rounded-lg text-sm hover:bg-emerald-900">
+              Apply via AI Profile
+            </button>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- SKILL GAP ANALYSIS -->
+      <section id="content-skillgap" class="tab-content p-6 hidden">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+
+          <div>
+            <h3 class="font-display font-bold text-xl text-gray-900 mb-2">Competency vs. Market Demand</h3>
+            <p class="text-sm text-gray-600 mb-6">
+              Compare your current skills with an example market benchmark.
+            </p>
+            <div class="w-full max-w-md mx-auto">
+              <canvas id="skillRadarChart"></canvas>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+
+            <div class="p-5 bg-brand-light rounded-xl border border-gray-200">
+              <h4 class="font-display font-bold text-brand-green mb-3">Recommended Skill Upgrade</h4>
+              <div class="flex justify-between text-xs font-semibold mb-1">
+                <span>GraphQL APIs</span>
+                <span class="text-brand-amber">Example gap: 35%</span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden mb-4">
+                <div class="bg-brand-amber h-full rounded-full" style="width: 65%"></div>
+              </div>
+              <button class="text-xs bg-white text-brand-green font-bold border border-brand-green px-4 py-2 rounded-lg">
+                Start Curated Pathway
+              </button>
+            </div>
+
+            <div class="p-5 bg-brand-light rounded-xl border border-gray-200">
+              <h4 class="font-display font-bold text-brand-green mb-3">Example Strong Competencies</h4>
+              <div class="flex flex-wrap gap-2">
+                <span class="bg-white border border-gray-200 text-gray-700 text-xs px-3 py-1.5 rounded-lg">Python</span>
+                <span class="bg-white border border-gray-200 text-gray-700 text-xs px-3 py-1.5 rounded-lg">React</span>
+                <span class="bg-white border border-gray-200 text-gray-700 text-xs px-3 py-1.5 rounded-lg">PostgreSQL</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- APPLICATIONS TRACKER -->
+      <section id="content-applications" class="tab-content p-6 hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-gray-200 text-xs font-semibold text-gray-500 uppercase">
+                <th class="pb-3">Company & Role</th>
+                <th class="pb-3">Applied Date</th>
+                <th class="pb-3">AI Match</th>
+                <th class="pb-3">Status</th>
+                <th class="pb-3 text-right">Action</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-100 text-sm">
+              <tr>
+                <td class="py-4">
+                  <p class="font-bold text-gray-900">Software Engineer</p>
+                  <p class="text-xs text-gray-500">Safaricom PLC</p>
+                </td>
+                <td class="py-4 text-gray-600">Aug 20, 2026</td>
+                <td class="py-4">
+                  <span class="bg-emerald-50 text-brand-green text-xs font-bold px-2 py-1 rounded">95%</span>
+                </td>
+                <td class="py-4">
+                  <span class="bg-blue-50 text-blue-700 text-xs font-semibold px-2.5 py-1 rounded-full">Interview Scheduled</span>
+                </td>
+                <td class="py-4 text-right">
+                  <a href="#" class="text-brand-green font-semibold text-xs hover:underline">View Details</a>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="py-4">
+                  <p class="font-bold text-gray-900">Backend Specialist</p>
+                  <p class="text-xs text-gray-500">Equity Group</p>
+                </td>
+                <td class="py-4 text-gray-600">Aug 15, 2026</td>
+                <td class="py-4">
+                  <span class="bg-emerald-50 text-brand-green text-xs font-bold px-2 py-1 rounded">89%</span>
+                </td>
+                <td class="py-4">
+                  <span class="bg-yellow-50 text-yellow-800 text-xs font-semibold px-2.5 py-1 rounded-full">Under Review</span>
+                </td>
+                <td class="py-4 text-right">
+                  <a href="#" class="text-brand-green font-semibold text-xs hover:underline">View Details</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- TAB SWITCHING AND CHART -->
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(section => {
+        section.classList.add('hidden');
+      });
+
+      document.querySelectorAll('.tab-btn').forEach(button => {
+        button.classList.remove(
+          'border-brand-green',
+          'text-brand-green',
+          'font-bold'
+        );
+        button.classList.add(
+          'border-transparent',
+          'text-gray-500',
+          'font-medium'
+        );
+      });
+
+      const content = document.getElementById('content-' + tabId);
+      const activeButton = document.getElementById('tab-' + tabId);
+
+      if (!content || !activeButton) return;
+
+      content.classList.remove('hidden');
+
+      activeButton.classList.add(
+        'border-brand-green',
+        'text-brand-green',
+        'font-bold'
+      );
+      activeButton.classList.remove(
+        'border-transparent',
+        'text-gray-500',
+        'font-medium'
+      );
+
+      if (tabId === 'skillgap' && !window.radarChartInstance) {
+        initRadarChart();
+      }
+    }
+
+    function initRadarChart() {
+      const canvas = document.getElementById('skillRadarChart');
+
+      if (!canvas || !window.Chart) return;
+
+      window.radarChartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'radar',
+        data: {
+          labels: [
+            'Python',
+            'React',
+            'Cloud/AWS',
+            'System Architecture',
+            'GraphQL',
+            'DevOps'
+          ],
+          datasets: [
+            {
+              label: 'Example Skill Profile',
+              data: [95, 90, 75, 80, 65, 70],
+              fill: true,
+              backgroundColor: 'rgba(26, 92, 50, 0.2)',
+              borderColor: '#1A5C32',
+              pointBackgroundColor: '#1A5C32'
+            },
+            {
+              label: 'Example Market Benchmark',
+              data: [85, 85, 90, 85, 90, 80],
+              fill: true,
+              backgroundColor: 'rgba(240, 90, 40, 0.2)',
+              borderColor: '#F05A28',
+              pointBackgroundColor: '#F05A28'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'bottom' }
+          },
+          scales: {
+            r: { min: 0, max: 100 }
+          }
+        }
+      });
+    }
+
+    // Logout
+    document.getElementById('logoutButton').addEventListener('click', () => {
+      localStorage.removeItem('kaziconnectSession');
+      sessionStorage.removeItem('kaziconnectSession');
+
+      window.location.replace('/login.html');
+    });
+  </script>
+
+</body>
+</html>
